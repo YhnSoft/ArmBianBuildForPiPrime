@@ -5,4 +5,15 @@ jobs:
   build-armbian:
     runs-on: ubuntu-latest
     steps:
-      - run: "git clone https://github.com/armbian/build && cd build && ./compile.sh BOARD=orangepiprime BRANCH=edge RELEASE=bookworm BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no"
+      - run: "git clone https://github.com/armbian/build && cd build && git switch v25.2.0-trunk.3 && ./compile.sh BOARD=orangepiprime BRANCH=edge RELEASE=bookworm BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no"
+  release:
+    needs: build-armbian
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v4
+      with:
+        name: Armbian-unofficial_24.11.0-trunk_Orangepiprime_bookworm_edge_6.11.7.img
+        path: build/output/images/Armbian-unofficial_24.11.0-trunk_Orangepiprime_bookworm_edge_6.11.7.img
+        
+        
